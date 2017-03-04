@@ -13,7 +13,7 @@ For Mac, install using these commands (you must have pip and homebrew installed)
 ```
 
 #Running the program
-For Mac, go to the folder through terminal and run the python file run.py
+For Mac, go to the folder through terminal and run the python file gui.py
 ```
-	python run.py
+	python gui.py
 ```
