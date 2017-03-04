@@ -49,30 +49,3 @@ def audioGenerator():
 	output.close()
 	composition = wave.open("dice.wav");
 	return composition
-
-def playComposition():
-	# uses the generated file to play
-	mozart = audioGenerator()
-	p = pyaudio.PyAudio()
-
-	# plays through the entire song
-	chunk = 1024
-	stream = p.open(format = p.get_format_from_width(mozart.getsampwidth()),  
-				channels = mozart.getnchannels(),  
-				rate = mozart.getframerate(),  
-				output = True)  
-	data = mozart.readframes(chunk)
-	while data:  
-		stream.write(data)  
-		data = mozart.readframes(chunk)
-
-	# closes the stream once the songs over
-	stream.stop_stream()
-	stream.close()
-	p.terminate()
-
-def main():
-	playComposition()
-
-if __name__ == "__main__":
-	main()
