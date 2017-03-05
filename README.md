@@ -12,8 +12,21 @@ For Mac, install using these commands (you must have pip and homebrew installed)
 	sudo pip install pyaudio
 ```
 
-#Running the program
-For Mac, go to the folder through terminal and run the python file gui.py
+###Py2App
+I found downloading the source to install [py2app](https://pypi.python.org/pypi/py2app#downloads) seemed much easier. Go into the folder through terminal and run this command.
 ```
-	python gui.py
+python setup.py install
+```
+
+#Running the program
+To run the app directly through terminal:
+```
+python gui.py
+```
+#Creating the Application
+The app will be created within the dist directory, and can be dragged over to your Applications folder for easy use. 
+
+To create the app:
+```
+python setup.py py2app
 ```
