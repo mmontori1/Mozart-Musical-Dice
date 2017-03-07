@@ -12,7 +12,7 @@ def playComposition():
 	global playing
 
 	# uses the generated file to play
-	mozart = audioGenerator()
+	mozart = wave.open("dice.wav")
 	p = pyaudio.PyAudio()
 
 	# plays through the entire song
@@ -60,16 +60,30 @@ def main():
 	root.configure(background = bgcolor)
 	root.wm_title("Mozart Musical Dice")
 	
-	label = Label(background = bgcolor)
-	label.pack()
+	# label = Label(background = bgcolor)
+	# label.pack()
 
 	frame = Frame(root, background = bgcolor)
 	frame.pack()
+	frame.place()
 
+	instFrame = Frame(root, background = "#ffffff")
+	# instFrame.pack()
+	instFrame.place()
+
+
+	# add instructions how to uses the app somewhere for ease of use
+	# add a method to create picture images of the dice for each portion of the minuet/trio
+	# - about button
+	# - instruction button
+	inst = Button(frame, text="How to use", highlightbackground = bgcolor, command = instFrame.lift)
+	inst.pack(pady = "10")
+	generate = Button(frame, text="Generate", highlightbackground = bgcolor, command = audioGenerator)
+	generate.pack(pady = "10")
 	begin = Button(frame, text="Play", highlightbackground = bgcolor, command = play)
-	begin.pack(pady = "30")
+	begin.pack(pady = "10")
 	end = Button(frame, text="Stop", highlightbackground = bgcolor, command = stop)
-	end.pack()
+	end.pack(pady = "10")
 
 	root.mainloop()
 

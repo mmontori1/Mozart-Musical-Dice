@@ -3,7 +3,7 @@ import py2app
 
 OPTIONS = {
 	# 'iconfile': 'treble.icns',
-	'resources': 'waves'
+	'resources': 'waves, dice'
 }
 
 setup(
