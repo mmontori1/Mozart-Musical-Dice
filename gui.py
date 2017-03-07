@@ -10,6 +10,7 @@ thread = None
 
 def playComposition():
 	global playing
+
 	# uses the generated file to play
 	mozart = audioGenerator()
 	p = pyaudio.PyAudio()
@@ -40,7 +41,6 @@ def play():
 		thread.start()
 	else:
 		playing = True
-		print(playing)
 
 # stop song
 def stop():
@@ -58,6 +58,7 @@ def exitApp():
 def main():
 	root.geometry("200x200")
 	root.configure(background = bgcolor)
+	root.wm_title("Mozart Musical Dice")
 	
 	label = Label(background = bgcolor)
 	label.pack()
@@ -65,10 +66,10 @@ def main():
 	frame = Frame(root, background = bgcolor)
 	frame.pack()
 
-	button = Button(frame, text="Play", highlightbackground = bgcolor, command = play)
-	button.pack(pady = "30")
-	exit = Button(frame, text="Stop", highlightbackground = bgcolor, command = stop)
-	exit.pack()
+	begin = Button(frame, text="Play", highlightbackground = bgcolor, command = play)
+	begin.pack(pady = "30")
+	end = Button(frame, text="Stop", highlightbackground = bgcolor, command = stop)
+	end.pack()
 
 	root.mainloop()
 
