@@ -6,6 +6,7 @@ import threading
 bgcolor = "#3a93df"
 root = Tk()
 playing = False
+visible_text = False
 thread = None
 
 def playComposition():
@@ -50,6 +51,13 @@ def stop():
 		playing = False
 		thread.join()
 
+def showText():
+	global visible_text
+	if visible_text:
+		text.delete(1.0,END)
+	else:
+		text.insert(END, "Just a text Widget\nin two lines\n")
+
 # exits the app
 def exitApp():
 	root.destroy()
@@ -64,20 +72,22 @@ def main():
 	# label.pack()
 
 	frame = Frame(root, background = bgcolor)
-	frame.pack()
+	frame.pack(side = LEFT)
 	frame.place()
 
-	instFrame = Frame(root, background = "#ffffff")
-	# instFrame.pack()
-	instFrame.place()
+	dice = Frame(root, background = bgcolor)
+	dice.pack()
+	dice.place()
+	inst = Button(dice, text="How to use", highlightbackground = bgcolor, command = showText)
+	inst.pack(pady = "10")
 
+	text = Text(root, height = 2, width = 30)
+	text.pack()
 
 	# add instructions how to uses the app somewhere for ease of use
 	# add a method to create picture images of the dice for each portion of the minuet/trio
 	# - about button
 	# - instruction button
-	inst = Button(frame, text="How to use", highlightbackground = bgcolor, command = instFrame.lift)
-	inst.pack(pady = "10")
 	generate = Button(frame, text="Generate", highlightbackground = bgcolor, command = audioGenerator)
 	generate.pack(pady = "10")
 	begin = Button(frame, text="Play", highlightbackground = bgcolor, command = play)
