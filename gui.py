@@ -56,27 +56,21 @@ def exitApp():
 
 # runs app
 def main():
-	root.geometry("200x200")
+	root.geometry("1200x800")
 	root.configure(background = bgcolor)
 	root.wm_title("Mozart Musical Dice")
-	
-	# label = Label(background = bgcolor)
-	# label.pack()
 
 	frame = Frame(root, background = bgcolor)
-	frame.pack()
-	frame.place()
+	frame.pack(side = LEFT)
 
-	instFrame = Frame(root, background = "#ffffff")
-	# instFrame.pack()
-	instFrame.place()
-
+	dice = Frame(root, background = bgcolor)
+	dice.pack()
 
 	# add instructions how to uses the app somewhere for ease of use
 	# add a method to create picture images of the dice for each portion of the minuet/trio
 	# - about button
 	# - instruction button
-	inst = Button(frame, text="How to use", highlightbackground = bgcolor, command = instFrame.lift)
+	inst = Button(dice, text="How to use", highlightbackground = bgcolor, command = exitApp)
 	inst.pack(pady = "10")
 	generate = Button(frame, text="Generate", highlightbackground = bgcolor, command = audioGenerator)
 	generate.pack(pady = "10")
