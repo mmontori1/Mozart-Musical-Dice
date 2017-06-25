@@ -4,29 +4,27 @@ The Musikalisches Würfelspiel is one of the first examples of interactive music
 
 I read about this while taking MUSPREF 300: Video Game Music at the University of Michigan, so I thought about creating a program to play the music. This Python program generates, plays, and saves the composition to a file called dice.wav.
 
-#Python Dependencies:
-###Pyaudio
+# Python Dependencies:
+## Pyaudio
 For Mac, install using these commands (you must have pip and homebrew installed):
 ```
-	brew install portaudio
-	sudo pip install pyaudio
+brew install portaudio
+sudo pip install pyaudio
 ```
 
-###Py2App
+## Py2App
 I found downloading the source to install [py2app](https://pypi.python.org/pypi/py2app#downloads) seemed much easier. Go into the folder through terminal and run this command.
 ```
 python setup.py install
 ```
 
-#Running the program
+# Running the program
 To run the app directly through terminal:
 ```
 python gui.py
 ```
-#Creating the Application
-The app will be created within the dist directory, and can be dragged over to your Applications folder for easy use. 
-
-To create the app:
+# Creating the Application
+The app will be created within the dist directory, and can be dragged over to your Applications folder for easy use. To create the app just run the create.sh shell script:
 ```
-python setup.py py2app
+sh create.sh
 ```

@@ -8,7 +8,7 @@ def randomAudioFiles():
 	count = 1
 
 	# creates list of 16 randomly chosen measures for the minuet
-	while(count < 17):
+	while count < 17 :
 		file = "waves/M" + str(count)
 		rollOne = randint(1, 6)
 		rollTwo = randint(1, 6)
@@ -18,7 +18,7 @@ def randomAudioFiles():
 		count += 1
 
 	# creates list of 16 randomly chosen measures for the trio
-	while(count < 33):
+	while count < 33 :
 		file = "waves/T" + str(count)
 		roll = randint(1, 6)
 		file += "-" + str(roll) + ".wav"
@@ -48,4 +48,4 @@ def audioGenerator():
 		output.writeframes(val[1])
 	output.close()
 	composition = wave.open("dice.wav");
-	return composition
+	return infiles

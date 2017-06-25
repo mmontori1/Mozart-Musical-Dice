@@ -7,6 +7,7 @@ bgcolor = "#3a93df"
 root = Tk()
 playing = False
 thread = None
+howTo = False
 
 def playComposition():
 	global playing
@@ -31,8 +32,7 @@ def playComposition():
 	stream.close()
 	p.terminate()
 
-# play song
-def play():
+def playSong():
 	global playing
 	global thread
 	if not playing:
@@ -42,42 +42,113 @@ def play():
 	else:
 		playing = True
 
-# stop song
-def stop():
+def stopSong():
 	global playing
 	global thread
 	if playing:
 		playing = False
 		thread.join()
 
-# exits the app
 def exitApp():
+	if playing:
+		stop()
 	root.destroy()
+
+def createInstructions(frame):
+	global howTo
+	if not howTo:
+		howTo = True
+		header = Label(frame, bg = bgcolor, text = "Instructions: ")
+		header.pack(pady = "20")
+		generate = Label(frame, bg = bgcolor, text = "Generate: Generates a new composition at random to simulate dice rolls.")
+		generate.pack(pady = "5")
+		play = Label(frame, bg = bgcolor, text = "Play: Plays current composition. Cannot clear or generate while playing.")
+		play.pack(pady = "5")
+		stop = Label(frame, bg = bgcolor, text = "Stop: Stops current composition")
+		stop.pack(pady = "5")
+		clear = Label(frame, bg = bgcolor, text = "Clear: Clears the current composition display values")
+		clear.pack(pady = "5")
+		quit = Label(frame, bg = bgcolor, text = "Quit: Exits the app")
+		quit.pack(pady = "5")
+
+# uses audioGenerator to create labels with dice rolls
+def createMusic(frame):
+	dice = audioGenerator()
+	headerText = "current piece: "
+	header = Label(frame, bg = bgcolor, text = headerText)
+	header.pack()
+
+	count = 0
+	result = "Minuet Rolls: "
+	removal = ""
+	val = ""
+	while count < 16 :
+		val = dice[count]
+		removal = val.split('-', 1)[-1]
+		result += removal.split('.', 1)[0]
+		result += ", "
+		count += 1
+	minuet = Label(frame, bg = bgcolor, text = result)
+	minuet.pack()
+
+	result = "Trio Rolls: "
+	while count < 32:
+		val = dice[count]
+		removal = val.split('-', 1)[-1]
+		result += removal.split('.', 1)[0]
+		result += ", "
+		count += 1
+	trio = Label(frame, bg = bgcolor, text = result)
+	trio.pack()
+
+def generateMusic(frame):
+	global playing
+	global howTo
+	if not playing:
+		if howTo:
+			clearFrame(frame)
+			createMusic(frame)
+			createInstructions(frame)
+		else:
+			clearFrame(frame)
+			createMusic(frame)
+
+# clears instructions & dice roll labels
+def clearFrame(frame):
+	global playing
+	global howTo
+	if not playing:
+		howTo = False
+		childrens = frame.winfo_children()
+		for widget in childrens:
+			widget.destroy()
 
 # runs app
 def main():
-	root.geometry("1200x800")
+	root.geometry("680x300")
 	root.configure(background = bgcolor)
 	root.wm_title("Mozart Musical Dice")
 
 	frame = Frame(root, background = bgcolor)
-	frame.pack(side = LEFT)
+	frame.pack(side=LEFT)
 
 	dice = Frame(root, background = bgcolor)
 	dice.pack()
 
-	# add instructions how to uses the app somewhere for ease of use
-	# add a method to create picture images of the dice for each portion of the minuet/trio
-	# - about button
-	# - instruction button
-	inst = Button(dice, text="How to use", highlightbackground = bgcolor, command = exitApp)
-	inst.pack(pady = "10")
-	generate = Button(frame, text="Generate", highlightbackground = bgcolor, command = audioGenerator)
-	generate.pack(pady = "10")
-	begin = Button(frame, text="Play", highlightbackground = bgcolor, command = play)
-	begin.pack(pady = "10")
-	end = Button(frame, text="Stop", highlightbackground = bgcolor, command = stop)
-	end.pack(pady = "10")
+	generateMusic(dice)
+
+	inst = Button(frame, text="How to use", highlightbackground = bgcolor, command = lambda:(createInstructions(dice)))
+	inst.pack(padx = "20", pady = "10")
+	generate = Button(frame, text="Generate", highlightbackground = bgcolor, command = lambda:(generateMusic(dice)))
+	generate.pack(padx = "20", pady = "10")
+	begin = Button(frame, text="Play", highlightbackground = bgcolor, command = playSong)
+	begin.pack(padx = "20", pady = "10")
+	end = Button(frame, text="Stop", highlightbackground = bgcolor, command = stopSong)
+	end.pack(padx = "20", pady = "10")
+	clear = Button(frame, text="Clear", highlightbackground = bgcolor, command = lambda: (clearFrame(dice)))
+	clear.pack(padx = "20", pady = "10")
+	quit = Button(frame, text="Quit", highlightbackground = bgcolor, command = exitApp)
+	quit.pack(padx = "20", pady = "10")
 
 	root.mainloop()
 
