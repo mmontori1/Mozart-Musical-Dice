@@ -31,6 +31,7 @@ def playComposition():
 	stream.stop_stream()
 	stream.close()
 	p.terminate()
+	playing = False
 
 def playSong():
 	global playing
@@ -50,8 +51,7 @@ def stopSong():
 		thread.join()
 
 def exitApp():
-	if playing:
-		stop()
+	stopSong()
 	root.destroy()
 
 def createInstructions(frame):
@@ -62,11 +62,11 @@ def createInstructions(frame):
 		header.pack(pady = "20")
 		generate = Label(frame, bg = bgcolor, text = "Generate: Generates a new composition at random to simulate dice rolls.")
 		generate.pack(pady = "5")
-		play = Label(frame, bg = bgcolor, text = "Play: Plays current composition. Cannot clear or generate while playing.")
+		play = Label(frame, bg = bgcolor, text = "Play: Plays current composition. Cannot generate while playing.")
 		play.pack(pady = "5")
 		stop = Label(frame, bg = bgcolor, text = "Stop: Stops current composition")
 		stop.pack(pady = "5")
-		clear = Label(frame, bg = bgcolor, text = "Clear: Clears the current composition display values")
+		clear = Label(frame, bg = bgcolor, text = "Clear: Clears out instructions")
 		clear.pack(pady = "5")
 		quit = Label(frame, bg = bgcolor, text = "Quit: Exits the app")
 		quit.pack(pady = "5")
@@ -88,6 +88,7 @@ def createMusic(frame):
 		result += removal.split('.', 1)[0]
 		result += ", "
 		count += 1
+	result = result[:-2]
 	minuet = Label(frame, bg = bgcolor, text = result)
 	minuet.pack()
 
@@ -98,6 +99,7 @@ def createMusic(frame):
 		result += removal.split('.', 1)[0]
 		result += ", "
 		count += 1
+	result = result[:-2]
 	trio = Label(frame, bg = bgcolor, text = result)
 	trio.pack()
 
@@ -113,7 +115,7 @@ def generateMusic(frame):
 			clearFrame(frame)
 			createMusic(frame)
 
-# clears instructions & dice roll labels
+# clears entire frame
 def clearFrame(frame):
 	global playing
 	global howTo
@@ -122,6 +124,17 @@ def clearFrame(frame):
 		childrens = frame.winfo_children()
 		for widget in childrens:
 			widget.destroy()
+
+# clears instructions
+def clearInstructions(frame):
+	global playing
+	global howTo
+	if howTo:
+		howTo = False
+		childrens = frame.winfo_children()
+		for widget in childrens:
+			if widget is not childrens[0] and widget is not childrens[1] and widget is not childrens[2]:
+				widget.destroy()
 
 # runs app
 def main():
@@ -136,6 +149,7 @@ def main():
 	dice.pack()
 
 	generateMusic(dice)
+	createInstructions(dice)
 
 	inst = Button(frame, text="How to use", highlightbackground = bgcolor, command = lambda:(createInstructions(dice)))
 	inst.pack(padx = "20", pady = "10")
@@ -145,7 +159,7 @@ def main():
 	begin.pack(padx = "20", pady = "10")
 	end = Button(frame, text="Stop", highlightbackground = bgcolor, command = stopSong)
 	end.pack(padx = "20", pady = "10")
-	clear = Button(frame, text="Clear", highlightbackground = bgcolor, command = lambda: (clearFrame(dice)))
+	clear = Button(frame, text="Clear", highlightbackground = bgcolor, command = lambda: (clearInstructions(dice)))
 	clear.pack(padx = "20", pady = "10")
 	quit = Button(frame, text="Quit", highlightbackground = bgcolor, command = exitApp)
 	quit.pack(padx = "20", pady = "10")
